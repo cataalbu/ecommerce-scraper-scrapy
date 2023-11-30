@@ -13,19 +13,6 @@ class SaveToMongoDBPipeline(object):
 
     def process_item(self, item, spider):
         self.insert_product(item)
-        # collection = self._db["scrapy_scraped_products"]
-        # result = collection.find_one({"websiteId": item["website_id"]})
-        # if result is None:
-        #     self.insert_product(item)
-        # else:
-        #     if result["price"][-1]["value"] != item["price"]:
-        #         price = result["price"]
-        #         price.append({
-        #             "value": item["price"],
-        #             "date": datetime.now()
-        #         })
-        #         item["price"] = price
-        #         self.update_product(result["_id"], item)
 
     def create_connection(self):
         self._client = MongoClient("mongodb://localhost:27017/")
