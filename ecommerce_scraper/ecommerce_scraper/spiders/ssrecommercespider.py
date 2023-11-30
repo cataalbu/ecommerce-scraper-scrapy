@@ -21,8 +21,8 @@ class SSREcommerceSpider(scrapy.Spider):
             prod.add_css('imageUrl', 'img::attr(src)')
             yield prod.load_item()
 
-        next_page = response.css('.MuiPaginationItem-previousNext:not(.Mui-disabled)[aria-label="Go to next page"]::attr(href)').get()
-        print("----CONSOLE----" + next_page)
-        if next_page is not None:
-            next_page_url = 'http://localhost:3000' + next_page
-            yield response.follow(next_page_url, callback=self.parse)
+        # next_page = response.css('.MuiPaginationItem-previousNext:not(.Mui-disabled)[aria-label="Go to next page"]::attr(href)').get()
+        # print("----CONSOLE----" + next_page)
+        # if next_page is not None:
+        #     next_page_url = 'http://localhost:3000' + next_page
+        #     yield response.follow(next_page_url, callback=self.parse)
