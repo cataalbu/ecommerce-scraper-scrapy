@@ -1,9 +1,9 @@
 import scrapy
 
 
-class ShopifyProduct(scrapy.Item):
+class Product(scrapy.Item):
+    website_id = scrapy.Field()
     name = scrapy.Field()
     price = scrapy.Field()
-    url = scrapy.Field()
     imageUrl = scrapy.Field()
     rating = scrapy.Field()
