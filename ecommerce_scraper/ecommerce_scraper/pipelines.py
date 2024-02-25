@@ -6,9 +6,11 @@ class SaveToMongoDBPipeline(object):
     def __init__(self):
         self._client = None
         self._db = None
+
+    def open_spider(self, spider):
         self.create_connection()
 
-    def __del__(self):
+    def close_spider(self, spider):
         self.close_connection()
 
     def process_item(self, item, spider):

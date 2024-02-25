@@ -1,11 +1,17 @@
 import scrapy
 from scrapy_playwright.page import PageMethod
-from ecommerce_scraper.items import Product
-from ecommerce_scraper.itemsloaders import CSREcommerceProductLoader
+from ..items import Product
+from ..itemsloaders import CSREcommerceProductLoader
 
 
-class CsrecommercespiderSpider(scrapy.Spider):
+class CSREcommerceSpider(scrapy.Spider):
     name = "csrecommercespider"
+    custom_settings = {
+        'DOWNLOAD_HANDLERS': {
+            "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+            "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+        }
+    }
 
     def start_requests(self):
         yield scrapy.Request('http://localhost:5173/', meta={

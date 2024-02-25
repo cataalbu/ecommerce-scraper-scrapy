@@ -1,6 +1,6 @@
 import scrapy
-from ecommerce_scraper.items import Product
-from ecommerce_scraper.itemsloaders import SSREcommerceProductLoader
+from ..items import Product
+from ..itemsloaders import SSREcommerceProductLoader
 
 
 class SSREcommerceSpider(scrapy.Spider):
@@ -21,7 +21,11 @@ class SSREcommerceSpider(scrapy.Spider):
             prod.add_css('imageUrl', 'img::attr(src)')
             yield prod.load_item()
 
-        next_page = response.css('::attr(href)').get()
+        next_page = response.css('.MuiPaginationItem-previousNext:not(.Mui-disabled)[aria-label="Go to next page"]::attr(href)').get()
         if next_page is not None:
             next_page_url = 'http://localhost:3000' + next_page
             yield response.follow(next_page_url, callback=self.parse)
+
+    def close(self, spider, reason):
+        pass
+
