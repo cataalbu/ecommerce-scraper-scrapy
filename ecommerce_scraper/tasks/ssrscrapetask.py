@@ -3,6 +3,7 @@ from scrapy.utils.project import get_project_settings
 from ecommerce_scraper.spiders.ssrecommercespider import SSREcommerceSpider
 import os
 
+import sys
 
 class CrawlRunner:
     def __init__(self):

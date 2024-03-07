@@ -17,10 +17,11 @@ app.use(bodyParser.json());
 const venvPythonPath = path.join('venv', 'bin', 'python')
 
 
-app.route('/csr').get((req, res) => {
-      try {
-
-          const child_process = spawn(venvPythonPath, [path.join('ecommerce_scraper', 'tasks', 'csrscrapetask.py')], {
+app.route('/csr').post((req, res) => {
+    const id = req.body.id;
+    const website = req.body.website;
+    try {
+          const child_process = spawn(venvPythonPath, [path.join('ecommerce_scraper', 'tasks', 'csrscrapetask.py'), id, website], {
               cwd: process.cwd(),
               env: {
                   PYTHONPATH: path.join('ecommerce_scraper')
@@ -40,16 +41,17 @@ app.route('/csr').get((req, res) => {
             });
 
             return res.json({ message: 'Scrape CSR task started successfully' });
-      } catch (error) {
+    } catch (error) {
             console.log(error);
-            return res.json({ message: 'Error starting scrape CSR task' }).status(500);
-      }
+            return res.status(500).json({ message: 'Error starting scrape CSR task' });
+    }
 });
 
-app.route('/ssr').get((req, res) => {
-      try {
-
-          const child_process = spawn(venvPythonPath, [path.join('ecommerce_scraper', 'tasks', 'ssrscrapetask.py')])
+app.route('/ssr').post((req, res) => {
+    const id = req.body.id;
+    const website = req.body.website;
+    try {
+          const child_process = spawn(venvPythonPath, [path.join('ecommerce_scraper', 'tasks', 'ssrscrapetask.py'), id, website])
 
           child_process.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
@@ -64,10 +66,10 @@ app.route('/ssr').get((req, res) => {
             });
 
             return res.json({ message: 'Scrape SSR task started successfully' });
-      } catch (error) {
+    } catch (error) {
             console.log(error);
-            return res.json({ message: 'Error starting scrape SSR task' }).status(500);
-      }
+            return res.status(500).json({ message: 'Error starting scrape SSR task' });
+    }
 });
 
 app.listen(port, () => {
