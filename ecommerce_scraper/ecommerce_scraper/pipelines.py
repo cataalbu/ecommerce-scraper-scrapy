@@ -1,5 +1,8 @@
-from datetime import datetime
 from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 class SaveToMongoDBPipeline(object):
@@ -17,14 +20,14 @@ class SaveToMongoDBPipeline(object):
         self.insert_product(item)
 
     def create_connection(self):
-        self._client = MongoClient("mongodb://localhost:27017/")
-        self._db = self._client["mock_ecommerce_db"]
+        self._client = MongoClient(os.getenv("MONGODB_URL"))
+        self._db = self._client[os.getenv("MONGODB_DB_NAME")]
 
     def close_connection(self):
         self._client.close()
 
     def insert_product(self, item):
-        collection = self._db["scrapy_scraped_products"]
+        collection = self._db["scrapedproducts"]
         collection.insert_one({
             "websiteId": item['website_id'],
             "name": item["name"],
