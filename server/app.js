@@ -1,10 +1,9 @@
 import express from 'express';
-import {config} from "dotenv";
+import 'dotenv/config';
 import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import path from 'path';
-
-config({path: `.env.server`})
+import { validateApiKeyMiddleware } from './middleware.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,6 +15,7 @@ app.use(bodyParser.json());
 
 const venvPythonPath = path.join('venv', 'bin', 'python')
 
+app.use(validateApiKeyMiddleware);
 
 app.route('/csr').post((req, res) => {
     const id = req.body.id;
