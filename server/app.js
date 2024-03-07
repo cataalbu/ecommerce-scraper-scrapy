@@ -38,6 +38,15 @@ app.route('/csr').post((req, res) => {
 
             child_process.on('close', (code) => {
               console.log(`child process exited with code ${code}`);
+              if (code !== 0) {
+                    fetch(`${process.env.SCRAPE_SENSE_API_URL}/scrape-tasks/crash/${id}`, {
+                      method: 'PATCH',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': process.env.SCRAPE_SENSE_API_KEY || '',
+                      },
+                    });
+              }
             });
 
             return res.json({ message: 'Scrape CSR task started successfully' });
@@ -51,18 +60,32 @@ app.route('/ssr').post((req, res) => {
     const id = req.body.id;
     const website = req.body.website;
     try {
-          const child_process = spawn(venvPythonPath, [path.join('ecommerce_scraper', 'tasks', 'ssrscrapetask.py'), id, website])
+          const child_process = spawn(venvPythonPath, [path.join('ecommerce_scraper', 'tasks', 'ssrscrapetask.py'), id, website], {
+              cwd: process.cwd(),
+              env: {
+                  PYTHONPATH: path.join('ecommerce_scraper')
+              }
+          })
 
-          child_process.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+            child_process.stdout.on('data', (data) => {
+                console.log(`stdout: ${data}`);
             });
 
-              child_process.stderr.on('data', (data) => {
-              console.error(`stderr: ${data}`);
+            child_process.stderr.on('data', (data) => {
+                console.error(`stderr: ${data}`);
             });
 
               child_process.on('close', (code) => {
-              console.log(`child process exited with code ${code}`);
+                console.log(`child process exited with code ${code}`);
+              if (code !== 0) {
+                    fetch(`${process.env.SCRAPE_SENSE_API_URL}/scrape-tasks/crash/${id}`, {
+                      method: 'PATCH',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': process.env.SCRAPE_SENSE_API_KEY || '',
+                      },
+                    });
+              }
             });
 
             return res.json({ message: 'Scrape SSR task started successfully' });

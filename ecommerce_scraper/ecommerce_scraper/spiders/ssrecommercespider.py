@@ -6,7 +6,7 @@ from ..itemsloaders import SSREcommerceProductLoader
 class SSREcommerceSpider(scrapy.Spider):
     name = "ssrecommercespider"
     allowed_domains = ["localhost"]
-    start_urls = ["http://localhost:3000/products"]
+    start_urls = ["http://localhost:3001/products"]
 
     def parse(self, response, **kwargs):
         products = response.css('[class*="ProductItem_product-item-container"]')
@@ -23,7 +23,7 @@ class SSREcommerceSpider(scrapy.Spider):
 
         next_page = response.css('.MuiPaginationItem-previousNext:not(.Mui-disabled)[aria-label="Go to next page"]::attr(href)').get()
         if next_page is not None:
-            next_page_url = 'http://localhost:3000' + next_page
+            next_page_url = 'http://localhost:3001' + next_page
             yield response.follow(next_page_url, callback=self.parse)
 
     def close(self, spider, reason):
