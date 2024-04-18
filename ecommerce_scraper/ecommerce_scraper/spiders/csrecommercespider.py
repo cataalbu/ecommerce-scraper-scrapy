@@ -3,7 +3,7 @@ from scrapy_playwright.page import PageMethod
 from ..items import Product
 from ..itemsloaders import CSREcommerceProductLoader
 
-WEBSITE_BASE_URL = "http://localhost:5173"
+WEBSITE_BASE_URL = "https://csr-scraping-website.whitecatdev.com"
 
 
 class CSREcommerceSpider(scrapy.Spider):
