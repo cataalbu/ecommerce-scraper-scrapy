@@ -1,5 +1,4 @@
 from aws_sqs_consumer import Consumer, Message
-from dotenv import load_dotenv
 import os
 import json
 from multiprocessing import Process, Queue
@@ -8,9 +7,6 @@ from ecommerce_scraper.spiders.csrecommercespider import CSREcommerceSpider
 from tasks.crawlrunner import CrawlRunner
 from ecommerce_scraper.spiders.ssrecommercespider import SSREcommerceSpider
 from task_producer import TaskProducer
-
-
-load_dotenv()
 
 
 class TaskConsumer(Consumer):
@@ -42,11 +38,3 @@ class TaskConsumer(Consumer):
 
         elif data['type'] == "ssr":
             self.run_spider_process(CrawlRunner(SSREcommerceSpider), data)
-
-
-if __name__ == "__main__":
-    consumer = TaskConsumer(
-        queue_url=os.getenv("SCRAPY_TASKS_QUEUE_URL"),
-        polling_wait_time_ms=1000
-    )
-    consumer.start()

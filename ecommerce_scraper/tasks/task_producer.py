@@ -1,8 +1,5 @@
-from dotenv import load_dotenv
 import json
 from boto3 import client
-
-load_dotenv()
 
 
 class TaskProducer:
