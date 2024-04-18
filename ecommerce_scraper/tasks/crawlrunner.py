@@ -19,3 +19,4 @@ class CrawlRunner:
         process.crawl(crawler)
         process.start()
         self.crawl_stats = crawler.stats.get_stats()
+        return crawler.stats.get_stats()
