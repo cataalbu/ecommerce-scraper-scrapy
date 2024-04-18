@@ -34,9 +34,6 @@ def update_results(f_task_id, f_website, f_scraped_products, crawl_stats):
 
 
 def run_task(crawler):
-    task_id = sys.argv[1]
-    website = sys.argv[2]
-
     productsRepository = ProductsRepository()
 
     productsRepository.create_connection()
@@ -47,7 +44,4 @@ def run_task(crawler):
     runner.run_spider()
 
     scraped_products = productsRepository.get_products()
-
-    update_results(task_id, website, scraped_products, runner.crawl_stats)
-
     productsRepository.close_connection()

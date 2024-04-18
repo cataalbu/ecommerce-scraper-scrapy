@@ -26,7 +26,6 @@ class CSREcommerceSpider(scrapy.Spider):
         page = response.meta['playwright_page']
 
         while True:
-
             products = response.css('[class*="_product-item-container"]')
             for product in products:
                 prod = CSREcommerceProductLoader(item=Product(), selector=product)
