@@ -30,6 +30,8 @@ class SaveToMongoDBPipeline(object):
         collection = self._db["scrapedproducts"]
         collection.insert_one({
             "websiteId": item['website_id'],
+            "websiteUrl": item['website_url'],
+            "date": item['date'],
             "name": item["name"],
             "price": item["price"],
             "imageUrl": item["imageUrl"],

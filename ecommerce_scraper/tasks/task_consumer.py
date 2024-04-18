@@ -10,9 +10,6 @@ from ecommerce_scraper.spiders.ssrecommercespider import SSREcommerceSpider
 
 load_dotenv()
 
-class FinishedTaskProducer():
-    pass
-
 
 class TaskConsumer(Consumer):
 

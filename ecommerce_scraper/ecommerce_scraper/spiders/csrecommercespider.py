@@ -3,6 +3,8 @@ from scrapy_playwright.page import PageMethod
 from ..items import Product
 from ..itemsloaders import CSREcommerceProductLoader
 
+WEBSITE_BASE_URL = "http://localhost:5173"
+
 
 class CSREcommerceSpider(scrapy.Spider):
     name = "csrecommercespider"
@@ -14,7 +16,7 @@ class CSREcommerceSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        yield scrapy.Request('http://localhost:5173/', meta={
+        yield scrapy.Request(f'{WEBSITE_BASE_URL}/', meta={
             'playwright': True,
             'playwright_page_methods': [
                 PageMethod('wait_for_selector', 'div[class*="_product-item-container"]')
@@ -24,12 +26,15 @@ class CSREcommerceSpider(scrapy.Spider):
 
     async def parse(self, response, **kwargs):
         page = response.meta['playwright_page']
+        start_time = self.crawler.stats.get_value('start_time')
 
         while True:
             products = response.css('[class*="_product-item-container"]')
             for product in products:
                 prod = CSREcommerceProductLoader(item=Product(), selector=product)
                 prod.add_value('website_id', product.attrib['data-id'])
+                prod.add_value('website_url', WEBSITE_BASE_URL)
+                prod.add_value('date', '')
                 prod.add_css('name', '[class*="_product-item-title"]::text')
                 prod.add_css('price', '[class*="_product-item-price"]::text')
                 prod.add_css('rating', '.MuiRating-root::attr(aria-label)')
