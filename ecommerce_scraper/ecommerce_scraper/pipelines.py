@@ -34,6 +34,6 @@ class SaveToMongoDBPipeline(object):
             "date": item['date'],
             "name": item["name"],
             "price": item["price"],
-            "imageUrl": item["imageUrl"],
+            "imageURL": item["image_url"],
             "rating": item["rating"]
         })

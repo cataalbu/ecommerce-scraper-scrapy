@@ -7,5 +7,5 @@ class Product(scrapy.Item):
     date = scrapy.Field()
     name = scrapy.Field()
     price = scrapy.Field()
-    imageUrl = scrapy.Field()
+    image_url = scrapy.Field()
     rating = scrapy.Field()

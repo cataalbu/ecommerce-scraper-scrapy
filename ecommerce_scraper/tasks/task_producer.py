@@ -18,7 +18,8 @@ class TaskProducer:
         data = {
             'id': task_data['id'],
             'website': task_data['website'],
-            "status": "crashed"
+            'scraper': task_data['scraper'],
+            "status": "crashed",
         }
         return self.send_message(json.dumps(data))
 
@@ -29,6 +30,7 @@ class TaskProducer:
             'startTime': scrapy_stats["start_time"].isoformat(),
             "endTime": scrapy_stats["finish_time"].isoformat(),
             "scrapeCount": scrapy_stats["item_scraped_count"],
-            "status": "finished"
+            "status": "finished",
+            'scraper': task_data['scraper'],
         }
         return self.send_message(json.dumps(data))
